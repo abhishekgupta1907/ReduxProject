@@ -24,7 +24,18 @@ export default App;
 const HomePage = () => {
     return (
         <div style={{ marginTop: "100px" }}>
-            <p>Welcome to the Home Page!</p>
+            <h1>Welcome to the Home Page!</h1>
+            <h3>
+                When you Click On Posts You Can See The content Related Posts
+            </h3>
+            <h3>
+                When you Click On Commets You Can See The content Related
+                Comments
+            </h3>
+            <h3>
+                When you Click On Products You Can See The content Related
+                Products
+            </h3>
         </div>
     );
 };
