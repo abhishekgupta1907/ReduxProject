@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { fetchPosts, clearPosts } from "./productSlice";
+import "./PostsList.css"; // Import CSS file
 
 function PostsList() {
     const dispatch = useDispatch();
@@ -18,44 +19,47 @@ function PostsList() {
 
     let content;
     if (status === "loading") {
-        content = <p>Loading...</p>;
+        content = <p className="loading">Loading...</p>;
     } else if (status === "succeeded") {
         content = (
-            <ul
-                style={{
-                    listStylePosition: "inside",
-                    margin: "5px",
-                    padding: 0,
-                    listStyle: "none",
-                }}
-            >
+            <ul className="product-list">
                 {products.map((post) => (
-                    <li key={post.id} style={{ marginBottom: "10px" }}>
-                        <strong>Title:</strong> {post.title}
-                        <p>{post.description}</p>
-                        <img src={post.image} alt="" height={300} width={300} />
+                    <li key={post.id} className="product-item">
+                        <img
+                            src={post.image}
+                            alt={post.title}
+                            className="product-image"
+                        />
+                        <div className="product-details">
+                            <h2 className="product-title">{post.title}</h2>
+                            <p className="product-description">
+                                {post.description}
+                            </p>
+                        </div>
                     </li>
                 ))}
             </ul>
         );
     } else if (status === "failed") {
-        content = <p>{error}</p>;
+        content = <p className="error-message">{error}</p>;
     }
 
     return (
-        <div>
-            <h1 style={{ marginTop: "100px" }}>Products</h1>
+        <div className="products-container">
+            <h1 className="products-header">Products</h1>
             {content}
-            {products.length > 0 ? (
-                ""
-            ) : (
-                <button onClick={showPosts}>Show Products</button>
+            {products.length === 0 && (
+                <button className="products-button" onClick={showPosts}>
+                    Show Products
+                </button>
             )}
-
-            {products.length > 0 ? (
-                <button onClick={clearPost}>Clear Products</button>
-            ) : (
-                ""
+            {products.length > 0 && (
+                <button
+                    className="products-button clear-button"
+                    onClick={clearPost}
+                >
+                    Clear Products
+                </button>
             )}
         </div>
     );

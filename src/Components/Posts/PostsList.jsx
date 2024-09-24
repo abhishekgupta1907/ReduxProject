@@ -1,5 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { fetchPosts, clearPosts } from "./postsSlice";
+import "./PostsList.css"; // Import CSS file
 
 function PostsList() {
     const dispatch = useDispatch();
@@ -17,21 +18,15 @@ function PostsList() {
 
     let content;
     if (status === "loading") {
-        content = <p>Loading...</p>;
+        content = <p className="loading">Loading...</p>;
     } else if (status === "succeeded") {
         content = (
-            <ul
-                style={{
-                    listStylePosition: "inside",
-                    margin: "5px",
-                    padding: 0,
-                    listStyle: "none",
-                }}
-            >
+            <ul className="post-list">
                 {posts.map((post) => (
-                    <li key={post.id} style={{ marginBottom: "10px" }}>
-                        <strong>Title:</strong> {post.title}
-                        <p>
+                    <li key={post.id} className="post-item">
+                        <strong className="post-title">Title:</strong>{" "}
+                        {post.title}
+                        <p className="post-body">
                             <strong>Body:</strong> {post.body}
                         </p>
                     </li>
@@ -39,23 +34,25 @@ function PostsList() {
             </ul>
         );
     } else if (status === "failed") {
-        content = <p>{error}</p>;
+        content = <p className="error-message">{error}</p>;
     }
 
     return (
-        <div>
-            <h1 style={{ marginTop: "100px" }}>Posts</h1>
+        <div className="posts-container">
+            <h1 className="posts-header">Posts</h1>
             {content}
-            {posts.length > 0 ? (
-                ""
-            ) : (
-                <button onClick={showPosts}>Show Posts</button>
+            {posts.length === 0 && (
+                <button className="posts-button" onClick={showPosts}>
+                    Show Posts
+                </button>
             )}
-
-            {posts.length > 0 ? (
-                <button onClick={clearPost}>Clear Posts</button>
-            ) : (
-                ""
+            {posts.length > 0 && (
+                <button
+                    className="posts-button clear-button"
+                    onClick={clearPost}
+                >
+                    Clear Posts
+                </button>
             )}
         </div>
     );

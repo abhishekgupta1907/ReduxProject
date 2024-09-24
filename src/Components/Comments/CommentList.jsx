@@ -1,5 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { fetchPosts, clearPosts } from "./commentsSlice"; // Corrected clearPosts import
+import "./CommentList.css"; // Import CSS file
+
 function CommentList() {
     const dispatch = useDispatch();
     const { comments, status, error } = useSelector((state) => state.comments);
@@ -16,21 +18,15 @@ function CommentList() {
 
     let content;
     if (status === "loading") {
-        content = <p>Loading...</p>;
+        content = <p className="loading">Loading...</p>;
     } else if (status === "succeeded") {
         content = (
-            <ul
-                style={{
-                    listStylePosition: "inside",
-                    margin: "5px",
-                    padding: 0,
-                    listStyle: "none",
-                }}
-            >
+            <ul className="comment-list">
                 {comments.map((post) => (
-                    <li key={post.id} style={{ marginBottom: "10px" }}>
-                        <strong>Name:</strong> {post.name}
-                        <p>
+                    <li key={post.id} className="comment-item">
+                        <strong className="comment-name">Name:</strong>{" "}
+                        {post.name}
+                        <p className="comment-body">
                             <strong>Body:</strong> {post.body}
                         </p>
                     </li>
@@ -38,23 +34,25 @@ function CommentList() {
             </ul>
         );
     } else if (status === "failed") {
-        content = <p>{error}</p>;
+        content = <p className="error-message">{error}</p>;
     }
 
     return (
-        <div>
-            <h1 style={{ marginTop: "100px" }}>Comments</h1>
+        <div className="comments-container">
+            <h1 className="comments-header">Comments</h1>
             {content}
-            {comments.length > 0 ? (
-                ""
-            ) : (
-                <button onClick={showPosts}>Show Comments</button>
+            {comments.length === 0 && (
+                <button className="comments-button" onClick={showPosts}>
+                    Show Comments
+                </button>
             )}
-
-            {comments.length > 0 ? (
-                <button onClick={clearPost}>Clear Comments</button>
-            ) : (
-                ""
+            {comments.length > 0 && (
+                <button
+                    className="comments-button clear-button"
+                    onClick={clearPost}
+                >
+                    Clear Comments
+                </button>
             )}
         </div>
     );
